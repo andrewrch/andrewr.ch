@@ -2,7 +2,7 @@ SHELL=/bin/bash
 
 CONTENT_DIR=content
 BUILD_DIR=build
-INSTALL_DIR=/var/www
+INSTALL_DIR=/var/www/html
 
 proto: prep all
 
