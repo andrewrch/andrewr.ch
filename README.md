@@ -32,25 +32,23 @@ Repository contents
 ---
 The file structure is expected to be similar to the following.
 
-``
-├── build_content.py
-├── content
-│   ├── website_1
-│   │   ├── assets
-│   │   │    ├── css
-│   │   │    ├── js
-│   │   │    └── images
-│   │   └── index.md
-│   ├── ...
-│   ├── ...
-│   └── website_N
-│       ├── assets
-│       │    ├── css
-│       │    ├── js
-│       │    └── images
-│       └── index.md
-└── makefile
-``
+    ├── build_content.py
+    ├── content
+    │   ├── website_1
+    │   │   ├── assets
+    │   │   │    ├── css
+    │   │   │    ├── js
+    │   │   │    └── images
+    │   │   └── index.md
+    │   ├── ...
+    │   ├── ...
+    │   └── website_N
+    │       ├── assets
+    │       │    ├── css
+    │       │    ├── js
+    │       │    └── images
+    │       └── index.md
+    └── makefile
 
 The build content script first creates a build directory, and then walks
 through the file hierarchy, translating any markdown files to HTML using
