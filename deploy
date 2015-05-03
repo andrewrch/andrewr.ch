@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh -t andrewr.ch 'cd ~/site/andrewr.ch; git pull; make; sudo make install'
