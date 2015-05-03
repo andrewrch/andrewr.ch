@@ -16,7 +16,8 @@ FOOTER   = "%s_footer.html"
 def pandoc_compile(path, build_path, file):
     # filename without extension
     filename_no_ext = os.path.splitext(file)[0]
-    print path
+    path = os.path.abspath(path)
+    build_path = os.path.abspath(build_path)
     if os.path.exists(os.path.join(path, TEMPLATE % filename_no_ext)):
         template = os.path.join(path, filename_no_ext, TEMPLATE)
     if os.path.exists(os.path.join(path, HEADER % filename_no_ext)):
@@ -42,7 +43,6 @@ def pandoc_compile(path, build_path, file):
      "-o", "%s" % os.path.join(build_path, "%s.html" % filename_no_ext)]
 
     print "Compiling %s" % file
-    print pandoc_command
     subprocess.call(pandoc_command)
 
 def main():
