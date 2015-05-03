@@ -10,8 +10,8 @@ import shutil
 import subprocess
 
 TEMPLATE = "%s_template.html"
-HEADER = "%s_header.html"
-FOOTER = "%s_footer.html"
+HEADER   = "%s_header.html"
+FOOTER   = "%s_footer.html"
 
 def pandoc_compile(path, build_path, file):
     # filename without extension
