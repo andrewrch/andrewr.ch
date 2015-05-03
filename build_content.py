@@ -9,6 +9,7 @@ import argparse
 import shutil
 import subprocess
 
+PANDOC   = "/home/andrew/.cabal/bin/pandoc"
 TEMPLATE = "%s_template.html"
 HEADER   = "%s_header.html"
 FOOTER   = "%s_footer.html"
@@ -33,7 +34,7 @@ def pandoc_compile(path, build_path, file):
     #    (" -o %s" % os.path.join(path, "%s.html" % filename_no_ext)))
 
     pandoc_command = \
-    ["pandoc",
+    [PANDOC,
      "%s" % os.path.join(path, file),
      #"-f", "markdown",
      #"-t", "html5",
@@ -43,6 +44,7 @@ def pandoc_compile(path, build_path, file):
      "-o", "%s" % os.path.join(build_path, "%s.html" % filename_no_ext)]
 
     print "Compiling %s" % file
+    print pandoc_command
     subprocess.call(pandoc_command)
 
 def main():
