@@ -1,0 +1,77 @@
+// Colour variables
+$red: #C71B1B
+$tan: #D6BA8A
+$green: #017467
+$yellow: #E08F23
+$black: #0B0D0C
+$white: #FFFFFF
+
+$text_color: $black
+// Header
+$header_text_color: $black
+$header_background_color: $yellow
+// Content
+$content_background_color: $white
+// footer
+$footer_background_color: $white
+$footer_height: 30px
+// body
+$body_background_color: $white
+
+$border-style: solid
+$border-color: $white
+$border-width: 5px
+
+html, body
+  height: 100%
+  margin: 0px
+  background-color: $body_background_color
+  font-family: "Tahoma", Geneva, sans-serif
+  color: $text_color
+
+pre
+  border-radius: 5px
+  border: 1px dashed
+
+#wrap
+  min-height: 100%
+  width: 800px
+  margin: 0px auto
+
+h1
+  padding: 20px 1px 20px 20px
+  margin: 10px 0px 0px 0px
+  color: $header_text_color
+  font-size: 2em
+  background-color: $header_background_color
+  border-top-right-radius: 8px
+  border-top-left-radius: 8px
+
+.band
+  height: 10px
+  background-color: $green
+  padding-left: $border-width
+  padding-color: $border-color
+
+#main
+  height: 100%
+  padding: 15px
+  color: $black
+  overflow: auto
+  padding-bottom: $footer_height
+  background-color: $content_background_color
+  border-top: 0px
+  border-bottom: 0px
+  border-left: $border-width
+  border-right: $border-width
+  border-color: $border-color
+  border-style: $border-style
+
+#footer
+  position: relative
+  margin-top: -$footer_height
+  height: $footer_height
+  clear: both
+  padding: 20px 15px
+  color: white
+  background-color: $footer_background_color

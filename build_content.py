@@ -8,39 +8,38 @@ import os
 import argparse
 import shutil
 import subprocess
+import fnmatch
 
 PANDOC   = "/home/andrew/.cabal/bin/pandoc"
-TEMPLATE = "%s_template.html"
-HEADER   = "%s_header.html"
-FOOTER   = "%s_footer.html"
+TEMPLATE = "*template.html"
+HEADER   = "*header.html"
+FOOTER   = "*footer.html"
+IGNORE_EXT = ["html", "sass", "map", "md", "cache"]
+IGNORE_DIRS = [".sass-cache"]
+
+def find_file_upward(path, pattern):
+    for file in fnmatch.filter(os.listdir(path), pattern):
+        return os.path.abspath(os.path.join(path, file))
+    return find_file_upward(os.path.join(path, os.path.pardir), pattern)
 
 def pandoc_compile(path, build_path, file):
     # filename without extension
     filename_no_ext = os.path.splitext(file)[0]
     path = os.path.abspath(path)
     build_path = os.path.abspath(build_path)
-    if os.path.exists(os.path.join(path, TEMPLATE % filename_no_ext)):
-        template = os.path.join(path, filename_no_ext, TEMPLATE)
-    if os.path.exists(os.path.join(path, HEADER % filename_no_ext)):
-        header = os.path.join(path, HEADER % filename_no_ext)
-    if os.path.exists(os.path.join(path, FOOTER % filename_no_ext)):
-        footer = os.path.join(path, FOOTER % filename_no_ext)
 
-    #pandoc_command = "pandoc %s -f markdown -t html5%s%s%s%s" % \
-    #    (os.path.join(path, file),\
-    #    (" -H %s" % header if 'header' in locals() else ""),\
-    #    (" -A %s" % footer if 'footer' in locals() else ""),\
-    #    (" --template %s" % template 'template' in locals() else ""),\
-    #    (" -o %s" % os.path.join(path, "%s.html" % filename_no_ext)))
+    template = find_file_upward(path, TEMPLATE)
+    header = find_file_upward(path, HEADER)
+    footer = find_file_upward(path, FOOTER)
 
     pandoc_command = \
     [PANDOC,
      "%s" % os.path.join(path, file),
-     #"-f", "markdown",
-     #"-t", "html5",
-     #"-H %s" % header if 'header' in locals() else "",
-     #"-A %s" % footer if 'footer' in locals() else "",
-     #"--template %s" % template if 'template' in locals() else "",
+     "-f", "markdown",
+     "-t", "html5",
+     "-H", "%s" % header,
+     "-A", "%s" % footer,
+     "--template", "%s" % template,
      "-o", "%s" % os.path.join(build_path, "%s.html" % filename_no_ext)]
 
     print "Compiling %s" % file
@@ -56,15 +55,19 @@ def main():
         # If directory, first check if exists in build directory and if not
         # then create it.
         build_path = path.replace(args.contents_dir, args.build_dir)
-        if not os.path.exists(build_path):
+        if not os.path.exists(build_path) and \
+           not any([dir in path for dir in IGNORE_DIRS]):
             os.makedirs(build_path)
-        for file in files:
-            # If file ending in .md then pandoc it
-            if file.endswith(".md"):
-                pandoc_compile(path, build_path, file)
-            # else copy to corresponding directory in build directory
-            else:
-                shutil.copyfile(os.path.join(path, file), \
-                                os.path.join(build_path, file))
+        # Compile all markdown files
+        md_files = fnmatch.filter(files, '*.md')
+        for file in md_files:
+            pandoc_compile(path, build_path, file)
+        # Copy any other files that dont have an extension which we ignore
+        other_files = [f for f in files if
+                       not any([f.endswith(ext) for ext in IGNORE_EXT]) and
+                       not any([dir in path for dir in IGNORE_DIRS])]
+        for file in other_files:
+            shutil.copyfile(os.path.join(path, file), \
+                            os.path.join(build_path, file))
 
 if __name__ == "__main__": main()

@@ -1,10 +1,8 @@
-Andy's Website
+Andrew Chambers
 ==============
 
+This website contains (Probably) all the information you need to know about me.
 
-This is some text mate
-
-
-whooooooop
-
-[This link](./code)
+[github](http://www.github.com/andrewrchambers)
+[twitter](http://twitter.com/andychambre)
+[linkedin](https://uk.linkedin.com/in/andrewrchambers)
